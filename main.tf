@@ -1,7 +1,7 @@
 resource "aws_instance" "frontend" {
   ami           = data.aws_ami.ami.image_id
   instance_type = "t3.micro"
-  vpc_security_group_ids = ["sg-0a9fe6f055e22e092"]
+  vpc_security_group_ids = [data.aws_security_group.sg.id]
 
   tags = {
     Name = "frontend"
@@ -9,8 +9,8 @@ resource "aws_instance" "frontend" {
 }
 
 resource "aws_route53_record" "frontend" {
-  zone_id = "Z10281701O26X6KFZM8G8"
-  name    = "frontend.yamunadevops.online"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "frontend.${var.zone_id}"
   type    = "A"
   ttl     = 10
   records = [aws_instance.frontend.private_ip]
@@ -19,7 +19,7 @@ resource "aws_route53_record" "frontend" {
 resource "aws_instance" "mysql" {
   ami           = data.aws_ami.ami.image_id
   instance_type = "t3.micro"
-  vpc_security_group_ids = ["sg-0a9fe6f055e22e092"]
+  vpc_security_group_ids = [data.aws_security_group.sg.id]
 
   tags = {
     Name = "mysql"
@@ -27,8 +27,8 @@ resource "aws_instance" "mysql" {
 }
 
 resource "aws_route53_record" "mysql" {
-  zone_id = "Z10281701O26X6KFZM8G8"
-  name    = "mysql.yamunadevops.online"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "mysql.${var.zone_id}"
   type    = "A"
   ttl     = 10
   records = [aws_instance.mysql.private_ip]
@@ -37,7 +37,7 @@ resource "aws_route53_record" "mysql" {
 resource "aws_instance" "backend" {
   ami           = data.aws_ami.ami.image_id
   instance_type = "t3.micro"
-  vpc_security_group_ids = ["sg-0a9fe6f055e22e092"]
+  vpc_security_group_ids = [data.aws_security_group.sg.id]
 
   tags = {
     Name = "backend"
@@ -45,8 +45,8 @@ resource "aws_instance" "backend" {
 }
 
 resource "aws_route53_record" "backend" {
-  zone_id = "Z10281701O26X6KFZM8G8"
-  name    = "backend.yamunadevops.online"
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "backend.${var.zone_id}"
   type    = "A"
   ttl     = 10
   records = [aws_instance.backend.private_ip]
