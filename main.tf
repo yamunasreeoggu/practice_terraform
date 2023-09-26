@@ -76,7 +76,7 @@ resource "aws_route53_record" "backend" {
   records = [aws_instance.backend.private_ip]
 }
 
-resource "null_resource" "mysql" {
+resource "null_resource" "backend" {
   depends_on = [aws_route53_record.backend]
   provisioner "local-exec" {
     command = <<EOF
